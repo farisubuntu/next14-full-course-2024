@@ -47,3 +47,33 @@ export default function DataPage() {
   );
 }
 ```
+
+### In `Server Components`:
+
+```js
+// app/data/page.js
+
+async function fetchData() {
+  const res = await fetch("https://fakestoreapi.com/products/");
+  const data = await res.json();
+  return data;
+}
+
+export default async function Data() {
+  const products = await fetchData();
+  console.log(products);
+  return (
+    <>
+      <h1>Data Page</h1>
+      <hr />
+      <table>
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>title</th>
+            // .....
+         // ....
+```
+
+---
+ d
