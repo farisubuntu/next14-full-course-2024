@@ -136,9 +136,21 @@ export async function GET() {
   export async function GET() {
     return NextResponse.json(users);
   }
-// you can add/update/delete any user in your db.js/users array but before that read about 'Middleware(s)' function next section
 }
+
+// also for `json` file such 'posts.json' you can get it this way:
+
+import {json} from "next/server";
+
+export async function GET(){
+  const {users} = json.GET("@/app/utils/db.js")
+  return Response.json(posts);
+  
+}
+
 ```
+
+> You can add/update/delete any user in your db.js/users array but before that read about 'Middleware(s)' function next section
 
 ---
 
