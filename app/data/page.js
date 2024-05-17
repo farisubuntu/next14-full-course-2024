@@ -1,11 +1,3 @@
-## Snippets: fetching data
-
-### In `Client Components`:
-
-```js
-
-// app/data/page.js
-
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -30,7 +22,14 @@ export default function DataPage() {
           <tr>
             <th>id</th>
             <th>title</th>
-           
+            <th>price</th>
+            {/* <th>description</th> */}
+            <th>category</th>
+            <th>image</th>
+            <th>
+              rating
+              <span>Count/Rate</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +41,12 @@ export default function DataPage() {
               {/* <td>{product.description}</td> */}
               <td>{product.category}</td>
               <td>
-                <Image src={product.image} alt={product.title} width={100} height={100} />
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  width={100}
+                  height={100}
+                />
               </td>
               <td>
                 {product.rating.count} / {product.rating.rate}
@@ -54,4 +58,3 @@ export default function DataPage() {
     </>
   );
 }
-```

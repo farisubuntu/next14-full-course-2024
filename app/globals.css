@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+ font-size: 16px;
+}
+td,th{
+ border:1px solid peru;
+ font-size: 12px;
+}
+img{
+ width: 100%;
+}
+thead{
+ background-color: steelblue;
+color: white;
+}
