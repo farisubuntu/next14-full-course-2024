@@ -140,17 +140,144 @@ export async function GET() {
 
 // also for `json` file such 'posts.json' you can get it this way:
 
-import {json} from "next/server";
+import { json } from "next/server";
 
-export async function GET(){
-  const {users} = json.GET("@/app/utils/db.js")
+export async function GET() {
+  const { users } = json.GET("@/app/utils/db.js");
   return Response.json(posts);
-  
 }
-
 ```
 
 > You can add/update/delete any user in your db.js/users array but before that read about 'Middleware(s)' function next section
 
 ---
 
+## `Middlewares`
+
+In `Next.js`, middleware's are function or pieces of code that run in between a user's request to a web page and the server's response. They help you process and modify the request or response, adding `extra functionality` to your web application.
+
+Example: suppose that the user want to access some sort of a route which needs the user credential like the user email/password then you need a `middleware` to redirect the user to the _login_ page and after authentication he would be able to get a response from their specific route right here.
+
+> get an introduction about `middlewares` at [https://nextjs.org/docs/app/building-your-application/routing/middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware)
+
+### Common Scenarios of `middlewares` uses:
+
+- `Authentication and Authorization`
+- Server-Side Redirects (at the server level)
+- Logging and Analytics
+
+`middlewares` NOT for:
+
+- Complex Data Fetching and Manipulation
+- Heavy Computational Tasks
+- Extensive Session Management
+- Direct Database Operations
+
+**Convention**: `middleware.ts/js` in the root of your project such `/src`, `app/`, `pages/`
+
+**Mactching Paths**: `Middleware` will be invoked for _every route in your project_. use matchers to precisely target or exclude specific routes. The following is the execution order:
+
+- `headers` from `next.config.js`
+- `redirects` from `next.config.js`
+- Middleware (`rewrites`, `redirects`, etc.)
+- `beforeFiles` (`rewrites`) from `next.config.js`
+- Filesystem routes (`public/`, `_next/static/`, `pages/`, `app/`, etc.)
+- `afterFiles` (`rewrites`) from `next.config.js`
+- Dynamic Routes (`/blog/[slug]`)
+- `fallback` (`rewrites`) from `next.config.js`
+
+**There are two ways to define which paths Middleware will run on:**
+
+1. `Custom matcher config`
+2. `Conditional statements`
+
+**Example - basic**
+
+```js
+// /src/middleware.js
+import { NextResponse } from "next/server";
+
+export function middleware(request) {
+  console.log("middleware ran");
+
+  return NextResponse.json({ success: "OK...." });
+}
+
+// matcher: allows you to filter Middleware to run on specific paths.
+
+export const config = {
+  matcher: ["/userslist/:path*"], //single path
+  //  or multiple paths:
+
+  // matcher: ['/about/:path*', '/dashboard/:path*'],
+};
+// go to address bar and enter:
+// localhost:3000/userslist
+// localhost:3000/userslist/jhonnnn
+
+// in server console : 'middleware ran'
+// each request return {success: 'Ok ....}
+```
+
+**Example - redirection:**
+
+```js
+// /src/middleware.js
+
+import { NextResponse } from 'next/server'
+
+// This function can be marked `async` if using `await` inside
+export function middleware(request) {
+  return NextResponse.redirect(new URL('/home', request.url))
+}
+
+// See "Matching Paths" below to learn more
+export const config = {
+  matcher: '/about/:path*',
+}
+/*
+Notes: the `matcher` config allows full regex, for ex.
+
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
+
+
+*/
+```
+
+### Conditional Statements
+
+```js
+import { NextResponse } from "next/server";
+
+export function middleware(request) {
+  if (request.nextUrl.pathname.startsWith("/about")) {
+    return NextResponse.rewrite(new URL("/about-2", request.url));
+  }
+  // or
+  if(request.nextUrl.pathname !== '/login'){
+    return NextResponse.redirect(new URL('/login',request.url))
+  }
+
+  if (request.nextUrl.pathname.startsWith("/dashboard")) 
+  // note: paths must start with '/'
+  {
+    return NextResponse.rewrite(new URL("/dashboard/user", request.url));
+  }
+}
+```
+
+continue: 
+_Mastering Next.js 14: A Comprehensive Guide to the Latest Features and Advanced Concepts!_
+
+https://www.youtube.com/watch?v=GowPe3iiqTs&list=PLYQvKkG7dksnf4OPr5qlSqd__7rAX6Iau&index=3
+
+[02:09:41]

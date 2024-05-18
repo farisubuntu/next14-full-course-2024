@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style>
+      .hljs-comment,
+      .hljs-string {
+        color: green;
+      }
+      .hljs-keyword,
+      .hljs-function {
+        color: blue;
+      }
+      .hljs-built_in,
+      .hljs-title {
+        color: brown;
+      }
+      body{
+       padding:0.2rem;
+      }
+      pre,code,p,li{
+       font-size: 1.2rem;
+      }
+      h2{
+       text-align: center;
+       background-color: gainsboro;
+       border:1px solid gray;
+       font-size: 2rem;
+       color:green;
+      }
+      h3{
+       color:blue;
+       padding:0.3rem 0.2rem;
+       border-left: 10px solid green;
+       background-color: gainsboro;
+
+      }
+      #-middlewares-{
+       page-break-before: right;
+
+      }
+pre{
+ margin-top:1rem;
+ border:1px dashed green;
+ padding:0.2rem 0.2rem;
+ white-space: pre-wrap;
+}
+
+</style>
+  </head>
+
+  <body>
+    <h2 id="snippets-fetching-data">Snippets: fetching data</h2>
+    <h3 id="in-client-components-">In <code>Client Components</code>:</h3>
+    <pre><code class="lang-js"><span class="hljs-comment">// app/data/page.js</span>
+
+<span class="hljs-string">"use client"</span>;
+<span class="hljs-keyword">import</span> { useEffect, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> Image <span class="hljs-keyword">from</span> <span class="hljs-string">"next/image"</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DataPage</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [products, setProducts] = useState([]);
+
+  useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchData</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">"https://fakestoreapi.com/products/"</span>);
+      <span class="hljs-keyword">let</span> data = <span class="hljs-keyword">await</span> res.json();
+      setProducts(<span class="hljs-function">(<span class="hljs-params">oldValues</span>) =&gt;</span> [...data]);
+      <span class="hljs-built_in">console</span>.log(data);
+    }
+    fetchData();
+  }, []);
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Data Page<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>id<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>title<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+          {products.map((product) =&gt; (
+            <span class="hljs-tag">&lt;<span class="hljs-name">tr</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{product.id}</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{product.id}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{product.title}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+              // .....
+            <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+          ))}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+    <span class="hljs-tag">&lt;/&gt;</span>
+  );
+}</span>
+</code></pre>
+    <h3 id="in-server-components-">In <code>Server Components</code>:</h3>
+    <pre><code class="lang-js"><span class="hljs-comment">// app/data/page.js</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchData</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">"https://fakestoreapi.com/products/"</span>);
+  <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> res.json();
+  <span class="hljs-keyword">return</span> data;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Data</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> products = <span class="hljs-keyword">await</span> fetchData();
+  <span class="hljs-built_in">console</span>.log(products);
+  <span class="hljs-keyword">return</span> (
+    &lt;&gt;
+      &lt;h1&gt;Data Page&lt;/h1&gt;
+      &lt;hr /&gt;
+      &lt;table&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;id&lt;/th&gt;
+            &lt;th&gt;title&lt;/th&gt;
+            // .....
+         // ....
+</code></pre>
+    <hr />
+    <h2 id="backend-intro-and-get-method">
+      Backend Intro and <code>GET</code> Method
+    </h2>
+    <blockquote>
+      <p>
+        Note: When you Inside the <code>app/api</code> directory = working with
+        the <code>API</code> = working with the <code>backend</code>
+      </p>
+    </blockquote>
+    <p><strong>Basic</strong></p>
+    <ul>
+      <li>make <code>api</code> dir</li>
+      <li>create the <code>endpoint</code> for the routes</li>
+    </ul>
+    <pre><code class="lang-js"><span class="hljs-keyword">import</span> { NextResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">"next/server"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GET</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> NextResponse.json({ <span class="hljs-attr">result</span>: <span class="hljs-string">"Hello"</span> }); <span class="hljs-comment">// {"result":"Hello"}</span>
+  <span class="hljs-comment">// open developer tool -&gt; network -&gt; F5 to see the request</span>
+  <span class="hljs-comment">// the status will be 200, if you want to change:</span>
+  <span class="hljs-comment">// return NextResponse.json({ result: "Hello" },{status:404}); // result in Not Found</span>
+}
+</code></pre>
+    <ul>
+      <li>
+        To work with the <code>dynamic route</code> make for ex.
+        <code>api/users/[id] dir and create a</code>route.js` file inside it:
+      </li>
+    </ul>
+    <pre><code class="lang-js"><span class="hljs-comment">// app/api/users/[id]/route.js</span>
+<span class="hljs-keyword">import</span> { NextResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">"next/server"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GET</span>(<span class="hljs-params">request, { params }</span>) </span>{
+  <span class="hljs-keyword">const</span> { id } = params;
+  <span class="hljs-keyword">return</span> NextResponse.json({
+    <span class="hljs-attr">result</span>: <span class="hljs-string">`User Id: <span class="hljs-subst">${id}</span>`</span>,
+  });
+}
+</code></pre>
+    <ul>
+      <li>
+        To work with data, create for ex. <code>/app/utils</code> -&gt;
+        <code>db.js</code>
+      </li>
+    </ul>
+    <pre><code class="lang-js"><span class="hljs-comment">// utils/db.js</span>
+const users = [
+  {
+<span class="hljs-symbol">    id:</span> <span class="hljs-number">1</span>,
+<span class="hljs-symbol">    email:</span> <span class="hljs-string">"john@gmail.com"</span>,
+<span class="hljs-symbol">    username:</span> <span class="hljs-string">"johnd"</span>,
+    <span class="hljs-comment">// ...</span>
+  },
+];
+</code></pre>
+    <p>now use this file from the route</p>
+    <pre><code class="lang-js"><span class="hljs-comment">// app/api/users/route.js</span>
+
+<span class="hljs-keyword">import</span> { NextResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">"next/server"</span>;
+<span class="hljs-comment">// import users array from db</span>
+<span class="hljs-keyword">import</span> { users } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/app/utis/db.js"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GET</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GET</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> NextResponse.json(users);
+  }
+}
+
+<span class="hljs-comment">// also for `json` file such 'posts.json' you can get it this way:</span>
+
+<span class="hljs-keyword">import</span> { json } <span class="hljs-keyword">from</span> <span class="hljs-string">"next/server"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GET</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> { users } = json.GET(<span class="hljs-string">"@/app/utils/db.js"</span>);
+  <span class="hljs-keyword">return</span> Response.json(posts);
+}
+</code></pre>
+    <blockquote>
+      <p>
+        You can add/update/delete any user in your db.js/users array but before
+        that read about &#39;Middleware(s)&#39; function next section
+      </p>
+    </blockquote>
+    <h2 id="-middlewares-">Middlewares</h2>
+    <p>
+      In <code>Next.js</code>, middleware&#39;s are function or pieces of code
+      that run in between a user&#39;s request to a web page and the
+      server&#39;s response. They help you process and modify the request or
+      response, adding <code>extra functionality</code> to your web application.
+    </p>
+    <p>
+      Example: suppose that the user want to access some sort of a route which
+      needs the user credential like the user email/password then you need a
+      <code>middleware</code> to redirect the user to the <em>login</em> page
+      and after authentication he would be able to get a response from their
+      specific route right here.
+    </p>
+    <blockquote>
+      <p>
+        get an introduction about <code>middlewares</code> at
+        <a
+          href="https://nextjs.org/docs/app/building-your-application/routing/middleware"
+          >https://nextjs.org/docs/app/building-your-application/routing/middleware</a
+        >
+      </p>
+    </blockquote>
+    <h3 id="common-scenarios-of-middlewares-uses-">
+      Common Scenarios of <code>middlewares</code> uses:
+    </h3>
+    <ul>
+      <li><code>Authentication and Authorization</code></li>
+      <li>Server-Side Redirects (at the server level)</li>
+      <li>Logging and Analytics</li>
+    </ul>
+    <p><code>middlewares</code> NOT for:</p>
+    <ul>
+      <li>Complex Data Fetching and Manipulation</li>
+      <li>Heavy Computational Tasks</li>
+      <li>Extensive Session Management</li>
+      <li>Direct Database Operations</li>
+    </ul>
+    <p>
+      <strong>Convention</strong>: <code>middleware.ts/js</code> in the root of
+      your project such <code>/src</code>, <code>app/</code>,
+      <code>pages/</code>
+    </p>
+    <p>
+      <strong>Mactching Paths</strong>: <code>Middleware</code> will be invoked
+      for <em>every route in your project</em>. use matchers to precisely target
+      or exclude specific routes. The following is the execution order:
+    </p>
+    <ul>
+      <li><code>headers</code> from <code>next.config.js</code></li>
+      <li><code>redirects</code> from <code>next.config.js</code></li>
+      <li>Middleware (<code>rewrites</code>, <code>redirects</code>, etc.)</li>
+      <li>
+        <code>beforeFiles</code> (<code>rewrites</code>) from
+        <code>next.config.js</code>
+      </li>
+      <li>
+        Filesystem routes (<code>public/</code>, <code>_next/static/</code>,
+        <code>pages/</code>, <code>app/</code>, etc.)
+      </li>
+      <li>
+        <code>afterFiles</code> (<code>rewrites</code>) from
+        <code>next.config.js</code>
+      </li>
+      <li>Dynamic Routes (<code>/blog/[slug]</code>)</li>
+      <li>
+        <code>fallback</code> (<code>rewrites</code>) from
+        <code>next.config.js</code>
+      </li>
+    </ul>
+    <p>
+      <strong
+        >There are two ways to define which paths Middleware will run
+        on:</strong
+      >
+    </p>
+    <ol>
+      <li><code>Custom matcher config</code></li>
+      <div class="break-after"></div>
+      <li><code>Conditional statements</code></li>
+    </ol>
+    <p><strong>Example - basic</strong></p>
+    <pre><code class="lang-js"><span class="hljs-comment">// /src/middleware.js</span>
+<span class="hljs-keyword">import</span> { NextResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">"next/server"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">middleware</span>(<span class="hljs-params">request</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"middleware ran"</span>);
+
+  <span class="hljs-keyword">return</span> NextResponse.json({ <span class="hljs-attr">success</span>: <span class="hljs-string">"OK...."</span> });
+}
+
+<span class="hljs-comment">// matcher: allows you to filter Middleware to run on specific paths.</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">matcher</span>: [<span class="hljs-string">"/userslist/:path*"</span>], <span class="hljs-comment">//single path</span>
+  <span class="hljs-comment">//  or multiple paths:</span>
+
+  <span class="hljs-comment">// matcher: ['/about/:path*', '/dashboard/:path*'],</span>
+};
+<span class="hljs-comment">// go to address bar and enter:</span>
+<span class="hljs-comment">// localhost:3000/userslist</span>
+<span class="hljs-comment">// localhost:3000/userslist/jhonnnn</span>
+
+<span class="hljs-comment">// in server console : 'middleware ran'</span>
+<span class="hljs-comment">// each request return {success: 'Ok ....}</span>
+</code></pre>
+    <p><strong>Example - redirection:</strong></p>
+    <pre><code class="lang-js"><span class="hljs-comment">// /src/middleware.js</span>
+
+<span class="hljs-keyword">import</span> { NextResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">'next/server'</span>
+
+<span class="hljs-comment">// This function can be marked `async` if using `await` inside</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">middleware</span>(<span class="hljs-params">request</span>) </span>{
+  <span class="hljs-keyword">return</span> NextResponse.redirect(<span class="hljs-keyword">new</span> URL(<span class="hljs-string">'/home'</span>, request.url))
+}
+
+<span class="hljs-comment">// See "Matching Paths" below to learn more</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">matcher</span>: <span class="hljs-string">'/about/:path*'</span>,
+}
+<span class="hljs-comment">/*
+Notes: the `matcher` config allows full regex, for ex.
+
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */</span>
+    <span class="hljs-string">'/((?!api|_next/static|_next/image|favicon.ico).*)'</span>,
+  ],
+
+
+*<span class="hljs-regexp">/</span>
+</code></pre>
+    <h3 id="conditional-statements">Conditional Statements</h3>
+    <pre><code class="lang-js"><span class="hljs-keyword">import</span> { NextResponse } from <span class="hljs-string">"next/server"</span>;
+
+export <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">middleware</span></span>(request) {
+  <span class="hljs-keyword">if</span> (request.nextUrl.pathname.startsWith(<span class="hljs-string">"/about"</span>)) {
+    <span class="hljs-keyword">return</span> NextResponse.rewrite(<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>(<span class="hljs-string">"/about-2"</span>, request.url));
+  }
+  <span class="hljs-comment">// or</span>
+  <span class="hljs-keyword">if</span>(request.nextUrl.pathname !== <span class="hljs-string">'/login'</span>){
+    <span class="hljs-keyword">return</span> NextResponse.redirect(<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>(<span class="hljs-string">'/login'</span>,request.url))
+  }
+
+  <span class="hljs-keyword">if</span> (request.nextUrl.pathname.startsWith(<span class="hljs-string">"/dashboard"</span>)) 
+  <span class="hljs-comment">// <span class="hljs-doctag">note:</span> paths must start with '/'</span>
+  {
+    <span class="hljs-keyword">return</span> NextResponse.rewrite(<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>(<span class="hljs-string">"/dashboard/user"</span>, request.url));
+  }
+}
+</code></pre>
+    <p>
+      continue:
+      <em
+        >Mastering Next.js 14: A Comprehensive Guide to the Latest Features and
+        Advanced Concepts!</em
+      >
+    </p>
+    <p>
+      <a
+        href="https://www.youtube.com/watch?v=GowPe3iiqTs&amp;list=PLYQvKkG7dksnf4OPr5qlSqd__7rAX6Iau&amp;index=3"
+        >https://www.youtube.com/watch?v=GowPe3iiqTs&amp;list=PLYQvKkG7dksnf4OPr5qlSqd__7rAX6Iau&amp;index=3</a
+      >
+    </p>
+    <p>[02:09:41]</p>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
