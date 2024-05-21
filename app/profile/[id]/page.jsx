@@ -18,4 +18,5 @@ export default async function ProfilePage({ params }) {
   console.log(id);
   const user = await fetchSpecificUser(id);
   return <div className="text-3xl text-blue-600">{JSON.stringify(user)}</div>;
+  
 }
