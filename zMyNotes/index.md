@@ -10,7 +10,7 @@
 45:49 - Dynamic Routes - 4
 52:38 - Catch All Routes - 5
 58:10 - Page Not Found - 6
-1:00:40 - Redirects
+1:00:40 - Redirects - 6
 01:04:40 - Client vs Server Components
 01:16:02 - Layouts In Depth
 01:28:21 - generateMetaData
