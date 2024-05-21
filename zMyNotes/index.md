@@ -9,10 +9,10 @@
 42:36 - Ignoring Routes - 3
 45:49 - Dynamic Routes - 4
 52:38 - Catch All Routes - 5
-58:10 - Page Not Found - 6
-1:00:40 - Redirects - 6
-01:04:40 - Client vs Server Components
-01:16:02 - Layouts In Depth
+58:10 - Page Not Found - 5
+1:00:40 - Redirects - 5
+01:04:40 - Client vs Server Components - 6 nothing new
+01:16:02 - Layouts In Depth - 7
 01:28:21 - generateMetaData
 01:32:09 - Image Optimizations
 01:39:09 - Fonts Optimizations
