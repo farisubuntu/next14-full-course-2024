@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Summary</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style>
+      .hljs-comment,
+      .hljs-string {
+        color: green;
+      }
+      .hljs-keyword,
+      .hljs-function {
+        color: blue;
+      }
+      .hljs-built_in,
+      .hljs-title {
+        color: brown;
+      }
+      body{
+       padding:0.2rem;
+      }
+      pre,p,li{
+       font-size: 1.2rem;
+      }
+      h2{
+       text-align: center;
+       background-color: gainsboro;
+       border:1px solid gray;
+       font-size: 2rem;
+       color:green;
+      }
+      h3{
+       color:blue;
+       padding:0.3rem 0.2rem;
+       border-left: 10px solid green;
+       background-color: gainsboro;
+
+      }
+      #-middlewares-{
+       page-break-before: right;
+
+      }
+pre{
+ margin-top:1rem;
+ border:1px dashed green;
+ padding:0.2rem 0.2rem;
+ white-space: pre-wrap;
+}
+code{
+  font-size: inherit;
+}
+</style>
+  </head>
+
+  <body>
+   <h1 id="-link-"><code>Link</code></h1>
+<ul>
+<li><code>Link</code> is a component provided by <code>Next.js</code> that allows you to create links to navigate between pages in your application.</li>
+<li>Its primarily used for declarative, client-side navigation. When you click on a link created with <code>Link</code>, it prevents the default browser full-page referesh and fetches the new page content on the client side, resulting in a faster and smooter user experience.</li>
+<li><p>Its typically used in your components&#39;s <code>JSX</code> code to create clickable links tha lead to other pages within your <code>Next.js</code> application.</p>
+<h1 id="-useroute-"><code>useRoute()</code></h1>
+</li>
+<li><p>a <code>Nextjs</code> hook that allows you to access the router object and its properties within your component.</p>
+</li>
+<li>It provides programmatic control over the router and allows you to navigate to different pages or perform other routing-related actions in response to user interactions or events within your component.</li>
+<li>Its useful when you need to hanfdle navigation or access route-specific information directly in your component logic.</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-comment">// app/page.js</span>
+
+<span class="hljs-string">"use client"</span>;
+<span class="hljs-keyword">import</span> { useRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">"next/navigation"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HomePage</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> router = useRouter();
+  <span class="hljs-keyword">const</span> navigation=<span class="hljs-function">(<span class="hljs-params">page</span>)=&gt;</span>{
+    router.push(page)
+  }
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">section</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>useRouter<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"border px-2"</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> navigation('about')}&gt;Go To About Page<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
+    <span class="hljs-tag">&lt;/&gt;</span>
+  );
+}</span>
+</code></pre>
+<hr>
+<h1 id="-dynamic-routes-"><code>Dynamic Routes</code></h1>
+<ul>
+<li>Dynamic route in <code>Next.js</code> refer to a feature that allows you to create web pages with variable or dynamic parts in the <code>URL</code>.</li>
+<li>Instead of defining individual routes for every possible <code>URL</code>, you can create a single <code>route pattern</code> that matches a variety of dynamic values.</li>
+<li>Its useful whe you have pages that share a common structure but differ based on specific information in the <code>URL</code>.</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-comment">// app/userslist/[user]</span>
+
+<span class="hljs-comment">// example url address: 'localhost:3000/userslist/jhon</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SingleUserPage</span>(<span class="hljs-params">{ params }</span>) </span>{
+  <span class="hljs-keyword">const</span> user = params.user;
+  <span class="hljs-built_in">console</span>.log(params); <span class="hljs-comment">// {user: 'jhon'}</span>
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"text-3xl border px-2 mt-3 text-blue-600"</span>&gt;</span>
+      SingleUserPage - username:{" "}
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"text-3xl text-red-600 p-1 mt-2"</span>&gt;</span>{user}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<hr>
+<h1 id="-catch-all-routes"><code>Catch-All</code> Routes</h1>
+<ul>
+<li>In <code>Next.js</code>, the <code>[...foldername]</code> notation indicates that you are using a <code>catch-all</code> route, which allows you to capture multiple <code>URL</code> segments and treat them as a dynamic array of values.</li>
+<li>Its useful when you want to create dynamic rtoutes that can handle varying mumbers of <code>URL</code> segments.</li>
+</ul>
+<pre><code class="lang-jsx"><span class="hljs-comment">// app/projects/[...all]/page.jsx</span>
+
+<span class="hljs-comment">// example url address: localhost:3000/projects/e-commerice/order/abcd-order</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SpecificProject</span>(<span class="hljs-params">{ params }</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(params);
+  <span class="hljs-comment">// ^ output:</span>
+  <span class="hljs-comment">// { all: [ 'e-commerice', 'order', 'abcd-order' ] }</span>
+  <span class="hljs-comment">// <span class="hljs-doctag">note:</span> 'all' word comes from [...all] route name</span>
+
+  <span class="hljs-comment">// Examples of return value:</span>
+
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Project {params.all}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>; <span class="hljs-comment">// Project e-commericeorderabcd-order</span>
+
+  <span class="hljs-comment">/*
+   &lt;h3&gt;All routes:&lt;/h3&gt;
+   {
+    params.all.map((p)=&gt;(
+     &lt;li key={p}&gt;{p}&lt;/li&gt;
+    ))
+   }
+  */</span>
+}
+</code></pre>
+<hr>
+<h1 id="-redirect-function"><code>redirect</code> function</h1>
+<p>The <code>redirect</code> function allows you to redirect the user to another URL. <code>redirect</code> can be used in <a href="https://nextjs.org/docs/app/building-your-application/rendering/server-components">Server Components</a>, <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers">Route Handlers</a>, and <a href="https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations">Server Actions</a>.</p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>In Server Actions and Route Handlers, <code>redirect</code> should be called after the <code>try/catch</code> block.</li>
+<li>If you prefer to return a 308 (Permanent) HTTP redirect instead of 307 (Temporary), you can use the <a href="https://nextjs.org/docs/app/api-reference/functions/permanentRedirect"><code>permanentRedirect</code> function</a> instead.</li>
+</ul>
+<blockquote>
+<p><code>redirect</code> does not return any value. <code>redirect</code> does not require you to use <code>return redirect()</code> as it uses the TypeScript <a href="https://www.typescriptlang.org/docs/handbook/2/functions.html#never"><code>never</code></a> type.</p>
+</blockquote>
+<p><strong><code>parameters</code></strong></p>
+<pre><code class="lang-js">redirect(<span class="hljs-built_in">path</span>, <span class="hljs-built_in">type</span>);
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>The URL to redirect to. Can be a relative or absolute path.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>&#39;replace&#39;</code> (default) or <code>&#39;push&#39;</code> (default in Server Actions)</td>
+<td>The type of redirect to perform.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-jsx"><span class="hljs-comment">// app/about/[id].page.jsx</span>
+<span class="hljs-keyword">import</span> { redirect } <span class="hljs-keyword">from</span> <span class="hljs-string">"next/navigation"</span>;
+
+<span class="hljs-comment">// examples of urls:</span>
+<span class="hljs-comment">// localhost:3000/about/3</span>
+<span class="hljs-comment">// localhost:3000/about/4 =&gt; redirect to `/login` page</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SpecififAboutID</span>(<span class="hljs-params">{ params }</span>) </span>{
+  <span class="hljs-comment">// if (params.id === 4) { // note id is a string not number</span>
+  <span class="hljs-keyword">if</span> (params.id == <span class="hljs-number">4</span>) { <span class="hljs-comment">// this  works...</span>
+    redirect(<span class="hljs-string">"/login"</span>);
+  }
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>SpecififAboutID : {params.id}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+}
+</code></pre>
+<blockquote>
+<p>See Examples for uses in <code>server component</code> and <code>client component</code> through a <code>Server Action</code> : https://nextjs.org/docs/app/api-reference/functions/redirect </p>
+</blockquote>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
