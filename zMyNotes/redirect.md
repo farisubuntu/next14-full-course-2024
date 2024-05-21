@@ -36,4 +36,5 @@ export default function SpecififAboutID({ params }) {
 }
 ```
 
-> See Examples for uses in `server component`, `client component`
+> See Examples for uses in `server component`, `client component` through a `Server Action`
+
