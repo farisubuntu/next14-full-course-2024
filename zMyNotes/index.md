@@ -8,7 +8,7 @@
 34:21 - useRouter() - 3
 42:36 - Ignoring Routes - 3
 45:49 - Dynamic Routes - 4
-52:38 - Catch All Routes
+52:38 - Catch All Routes - 5
 58:10 - Page Not Found
 1:00:40 - Redirects
 01:04:40 - Client vs Server Components
