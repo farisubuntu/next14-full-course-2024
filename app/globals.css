@@ -3,11 +3,15 @@
 @tailwind utilities;
 
 
-td,th{
- border:1px solid burlywood;
- padding:5px
+ul{
+ display: flex;
+ justify-content: space-around;
 }
-table{
- width: 100vw;
- font-size: 1.2rem;
+.link{
+ list-style: none;
+ text-decoration: none;
+ margin: 10px;
+}
+h1{
+ text-align: center;
 }
